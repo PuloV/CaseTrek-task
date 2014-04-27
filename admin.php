@@ -4,7 +4,7 @@ require_once 'require.php';
 if (array_key_exists("feature", $_POST)) {
   $features =$_POST['feature'];
   foreach ($features as $key => $value) {
-    $f = new Feature(array("id" => $key,"name" => $value));
+    $f = new Feature(array("id" => $key+1,"name" => $value));
     $f->update();
   }
  //die();
@@ -76,6 +76,7 @@ foreach ($features as $key => $value) {
 ?>
 </ul>
 <input type="submit" value="Save">
+<input type="button" value="Add feature" onclick="add_feature();">
 </form>
 </body>
 </html>
