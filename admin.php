@@ -54,7 +54,7 @@ function add_feature(){
 <body>
 <form action="admin.php" method="POST">
 <ul id="sortable">
-<?
+<?php
 $li ='<li class="ui-state-default" id = "%d">
         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
         <input id = "feature[%d]" name= "feature[%d]" type="text" value="%s">
