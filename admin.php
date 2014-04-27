@@ -1,13 +1,22 @@
 <?php
 require_once 'require.php';
-//var_dump($_POST);
+
+$f = new Feature();
+$features = $f->all();
 if (array_key_exists("feature", $_POST)) {
-  $features =$_POST['feature'];
-  foreach ($features as $key => $value) {
-    $f = new Feature(array("id" => $key+1,"name" => $value));
-    $f->update();
+  $shuffle_feature =$_POST['feature'];
+  var_dump($shuffle_feature);
+  foreach ($shuffle_feature as $key => $value) {
+    $poped_feature = array_shift($features);
+    if($poped_feature){
+      $poped_feature->name = $value;
+      $poped_feature->save();
+    }
+    else {
+      $new_feature = new Feature(array("id" => 0 , "name" => $value));
+      $new_feature->save();
+    }
   }
- //die();
 }
 
 $f = new Feature();
@@ -32,34 +41,15 @@ $features = $f->all();
 $(function() {
 	var start;
 	var end;
-$( "#sortable" ).sortable({
-start: function( event, ui ) {
-	start = ui.item.index();
-} ,
-update: function( event, ui ) {
-	end =ui.item.index();
-
-} ,
-stop: function( event, ui ) {
-	$("#"+ (start +1) + " input").attr("name","feature[" + end + "]");
-	if(start < end) {
-		for (var i = end ; i > start; i--) {
-			$("#"+ (i +1) + " input").attr("name","feature[" +( i-1 )+ "]");
-		};}
-	else{
-		for (var i = start-1 ; i >= end; i--) {
-			$("#"+ (i +1) + " input").attr("name","feature[" + (i+1) + "]");
-		}
-	}
-
-
-	alert("start : "+ start + " & end :" + end);
-	//console.log($("#6 input").attr("value"));
-},
-});
+$( "#sortable" ).sortable();
 $( "#sortable" ).disableSelection();
-//console.log($("#sortable").sortable('toArray'));
 });
+function add_feature(){
+  new_li = "<li class='ui-state-default' id = '%d'>"
+  new_li += "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"
+  new_li +="<input id = 'feature[0]' name= 'feature[0]' type='text' value=''></li>"
+  $("#sortable").append(new_li)
+};
 </script>
 </head>
 <body>
@@ -68,15 +58,15 @@ $( "#sortable" ).disableSelection();
 <?
 $li ='<li class="ui-state-default" id = "%d">
         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-        <b>%d</b><input id = "feature[%d]" name= "feature[%d]" type="text" value="%s">
+        <input id = "feature[%d]" name= "feature[%d]" type="text" value="%s">
       </li>';
 foreach ($features as $key => $value) {
-  printf($li,$value->id,$value->id,$value->id,$value->id,$value->name);
+  printf($li,$key,$value->id,$value->id,$value->name);
 }
 ?>
 </ul>
 <input type="submit" value="Save">
-<input type="button" value="Add feature" onclick="add_feature();">
+<input type="button" value="Add feature" onclick="add_feature()">
 </form>
 </body>
 </html>
