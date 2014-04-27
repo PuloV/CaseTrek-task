@@ -33,7 +33,7 @@ class Feature
     function update(){
       $sql ="UPDATE features SET `feature.name` = '". $this->name ."' WHERE `feature.id` =". $this->id ." LIMIT 1";
       $result=$this->mysqli->query($sql);
-      print($sql);
+      print($sql."<br />");
       return $this->mysqli->error;
     }
   }
