@@ -20,7 +20,6 @@ class Vote
     function has_vote($user , $feature_id){
       $sql = "SELECT * FROM `user_votes` WHERE `feature_id` = ".$feature_id."  AND `user_email` = '".$user."' LIMIT 1";
       $result=$this->mysqli->query($sql);
-      var_dump($result);
       return ($result->num_rows != 0);
     }
 
