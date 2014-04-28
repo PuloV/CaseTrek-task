@@ -29,13 +29,18 @@ if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
 <style>
   li {width: 20% ; height: 30px;}
   div { float: right; }
+  .wrong {border-color: red; border-radius: 5px;}
+  .wrongmsg {color: red;}
+  .correctmsg {color: green;}
+  input { border-radius: 5px; border-width: 2px; border-color: black;}
 }
 </style>
 </head>
 <body>
 <span>You have <span id="left"></span> stars left !</span>
 <form action="user.php" method="POST">
-<label for="email"> Your Email : </label><input id ="email" type="email" name="email" value="<?php if($user) print($user); ?>">
+<label for="email"> Your Email : </label><input id ="email" type="text" name="email" value="<?php if($user) print($user); ?>">
+<span id="errorMSG"></span>
 <ul>
 <?php
 $li ='<li id = "%d">
@@ -47,10 +52,27 @@ foreach ($features as $key => $value) {
 }
 ?>
 </ul>
-<input type="submit" value="Save">
+<input id="submit" type="submit" value="Save">
 </form>
 </body>
 <script type="text/javascript">
+$("input#email").change(function(){
+  email = $(this).val();
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  console.log(re.test(email));
+  if(re.test(email) === false){
+    $(this).attr("class" , "wrong");
+    $("#errorMSG").text("Wrong or missing email !")
+    $("#errorMSG").attr("class","wrongmsg");
+    $("#submit").attr("disabled", "disabled");
+  }
+  else {
+    $("#errorMSG").text("OK !");
+    $("#errorMSG").attr("class","correctmsg");
+    $("#submit").removeAttr("disabled");
+  }
+
+});
 <?php
   printf("var Max=%d;",sizeof($features)*3 - array_sum($feature_votes));
   ?>
