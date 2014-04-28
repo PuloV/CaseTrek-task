@@ -40,4 +40,13 @@ class Feature
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
     }
+
+    function delete(){
+      if ($this->id) {
+        $sql ="DELETE FROM `features` WHERE `feature.id` = ".$this->id." LIMIT 1";
+      }
+      var_dump($sql);
+      $result=$this->mysqli->query($sql);
+      return $this->mysqli->error;
+    }
   }
