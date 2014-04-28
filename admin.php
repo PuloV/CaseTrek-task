@@ -7,8 +7,10 @@ if (array_key_exists("feature", $_POST)) {
   $shuffle_feature =$_POST['feature'];
   foreach ($shuffle_feature as $key => $value) {
     $poped_feature = array_shift($features);
+    var_dump($value);
     if($poped_feature){
-      $poped_feature->name = $value;
+      $poped_feature->name = $value["value"];
+      $poped_feature->id = $value["id"];
       $poped_feature->save();
     }
     else {
@@ -64,11 +66,12 @@ function remove_feature(id){
 <?php
 $li ='<li class="ui-state-default" id = "%d">
         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-        <input id = "feature[%d]" name= "feature[%d]" type="text" value="%s">
+        <input id = "id" name= "feature[%d][id]" type="text" value="%d">
+        <input id = "feature[%d][value]" name= "feature[%d][value]" type="text" value="%s">
         <div class="ui-icon ui-icon-closethick" onclick="remove_feature(%d)"></div>
       </li>';
 foreach ($features as $key => $value) {
-  printf($li,$key,$value->id,$value->id,$value->name,$key);
+  printf($li,$key,$value->id,$value->id,$value->id,$value->id,$value->name,$key);
 }
 ?>
 </ul>
