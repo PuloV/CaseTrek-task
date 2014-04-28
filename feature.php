@@ -5,6 +5,7 @@ class Feature
   {
     private $mysqli;
     public $id;
+    public $order_id;
     public $name;
 
     function __construct($params  = array())
@@ -25,27 +26,28 @@ class Feature
       /* Prefered array than object for the result because of the column names */
       foreach ($result as $key => $value) {
         array_push($all_features, new Feature(array("id" => $value['feature.id'] ,
-                                                    "name" => $value['feature.name'])));
+                                                    "name" => $value['feature.name'],
+                                                    "order_id" => $value['feature.order_id'])));
       }
       return $all_features;
     }
 
     function save(){
-      if ($this->id <= 0) {
-        $sql ="INSERT INTO `features` (`feature.name`) VALUES ('".$this->name."')";
+      if ($this->order_id <= 0) {
+        $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".$this->name."','".time()."')";
+
       }
       else {
-        $sql ="UPDATE features SET `feature.name` = '". $this->name ."' WHERE `feature.id` =". $this->id ." LIMIT 1";
+        $sql ="UPDATE features SET `feature.name` = '". $this->name ."' , `feature.id` = '". $this->id ."' WHERE `feature.order_id` =". $this->order_id ." LIMIT 1";
       }
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
     }
 
     function delete(){
-      if ($this->id) {
-        $sql ="DELETE FROM `features` WHERE `feature.id` = ".$this->id." LIMIT 1";
+      if ($this->order_id) {
+        $sql ="DELETE FROM `features` WHERE `feature.order_id` = ".$this->order_id." LIMIT 1";
       }
-      var_dump($sql);
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
     }
