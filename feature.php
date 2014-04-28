@@ -14,7 +14,6 @@ class Feature
       foreach ($params as $key => $value) {
         $this->$key = $value;
       }
-
     }
 
     function all()
@@ -32,15 +31,18 @@ class Feature
       return $all_features;
     }
 
+    function fix_ids(){
+      $sql = "UPDATE features SET `feature.id` =`feature.order_id` WHERE `feature.id` <= 0 ";
+      $this->mysqli->query($sql);
+    }
+
     function save(){
       if ($this->id <= 0) {
-        $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".trim($this->name)."','".time()."')";
-
+        $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".trim($this->name)."','".$this->id."')";
       }
       else {
         $sql ="UPDATE features SET `feature.name` = '". trim($this->name) ."' , `feature.id` = '". $this->id ."' WHERE `feature.order_id` =". $this->order_id ." LIMIT 1";
       }
-
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
     }

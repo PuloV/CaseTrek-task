@@ -5,21 +5,23 @@ $f = new Feature();
 $features = $f->all();
 if (array_key_exists("feature", $_POST)) {
   $shuffle_feature =$_POST['feature'];
+ // var_dump($shuffle_feature);
   foreach ($shuffle_feature as $key => $value) {
     $poped_feature = array_shift($features);
-    if($poped_feature){
+    if($poped_feature != NULL){
       $poped_feature->name = $value["value"];
       $poped_feature->id = $value["id"];
       $poped_feature->save();
     }
     else {
-      $new_feature = new Feature(array("id" => 0 , "name" => $value));
+      $new_feature = new Feature(array("id" => $value['id'] , "name" => $value['value']));
       $new_feature->save();
     }
   }
   foreach ($features as $key => $value) {
     $value->delete();
   }
+  $f->fix_ids();
 }
 
 $f = new Feature();
@@ -54,7 +56,8 @@ function add_feature(){
   add --;
   new_li = "<li class='ui-state-default' id = '"+ add + "'>"
   new_li += "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"
-  new_li +="<input id = 'feature["+ add + "]' name= 'feature["+ add + "]' type='text' value=''>"
+  new_li +='<input id = "id" name= "feature['+ add + '][id]" type="hidden" value="'+ add + '">'
+  new_li +="<input id = 'feature["+ add + "][value]' name= 'feature["+ add + "][value]' type='text' value=''>"
   new_li +='<div class="ui-icon ui-icon-closethick" onclick="remove_feature('+ add + ')"></div></li>'
   $("#sortable").append(new_li)
 };
