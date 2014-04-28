@@ -16,7 +16,7 @@ About
 
 Some explanations
 -----------------
-> I've created the table `features` with two id`s because
+> I've created the table `features` with two id's because
 > I think it's easier to handle them than writing some
 > js that would be complicated . The `order_id` contains the
 > oreder number that is AI and the `id` contains the unique and
