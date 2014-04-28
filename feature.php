@@ -34,12 +34,13 @@ class Feature
 
     function save(){
       if ($this->order_id <= 0) {
-        $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".$this->name."','".time()."')";
+        $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".trim($this->name)."','".time()."')";
 
       }
       else {
-        $sql ="UPDATE features SET `feature.name` = '". $this->name ."' , `feature.id` = '". $this->id ."' WHERE `feature.order_id` =". $this->order_id ." LIMIT 1";
+        $sql ="UPDATE features SET `feature.name` = '". trim($this->name) ."' , `feature.id` = '". $this->id ."' WHERE `feature.order_id` =". $this->order_id ." LIMIT 1";
       }
+
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
     }
