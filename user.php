@@ -2,6 +2,20 @@
 require_once 'require.php';
 $f = new Feature();
 $features = $f->all();
+$user = $_POST["email"];
+$feature_votes = array();
+
+if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
+  $feature_votes =$_POST['feature'];
+  $user = $_POST["email"];
+  foreach ($feature_votes as $key => $value) {
+    $vote = new Vote(array("user" => $_POST['email'] ,
+                           "feature" => $key,
+                           "vote_score" => $value));
+    $vote->save();
+  }
+}
+
 ?>
 
 <!doctype html>
@@ -20,6 +34,8 @@ $features = $f->all();
 </head>
 <body>
 <span>You have <span id="left"></span> stars left !</span>
+<form action="user.php" method="POST">
+<label for="email"> Your Email : </label><input id ="email" type="email" name="email" value="<?php if($user) print($user); ?>">
 <ul>
 <?php
 $li ='<li id = "%d">
@@ -31,11 +47,12 @@ foreach ($features as $key => $value) {
 }
 ?>
 </ul>
+<input type="submit" value="Save">
 </form>
 </body>
 <script type="text/javascript">
 <?php
-  printf("var Max=%d;",sizeof($features)*3);
+  printf("var Max=%d;",sizeof($features)*3 - array_sum($feature_votes));
   ?>
   $("#left").text(Max);
   var stats = {}
@@ -43,6 +60,7 @@ foreach ($features as $key => $value) {
  $js = '$("#star%d").raty({
     scoreName: "feature[%d]" ,
     numberMax: 2,
+    start: %d,
     onClick: function(score) {
       id = %d ;
       current_stat = stats[id] || 0;
@@ -65,7 +83,12 @@ foreach ($features as $key => $value) {
 });
 ';
 foreach ($features as $key => $value) {
-  printf($js,$value->id,$value->id,$value->id);
+  if(array_key_exists($value->id,$feature_votes))
+    $vote = $feature_votes[$value->id];
+  else
+    $vote = 0;
+  printf($js,$value->id,$value->id,$vote,$value->id);
+  printf('stats[%d]=%d ;',$value->id ,$vote );
 }
 
 ?>
