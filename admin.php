@@ -1,5 +1,7 @@
 <?php
+session_start();
 require_once 'require.php';
+require_once 'log.php';
 
 $f = new Feature();
 $features = $f->all();
@@ -42,6 +44,7 @@ $features = $f->all();
 #sortable li span { position: absolute; margin-left: -1.3em; }
 #sortable li div { float: right }
 #sortable li input {position:relative}
+a {width: 30%; vertical-align: left; float: right;}
 input { border-radius: 5px; border-width: 2px; border-color: black;}
 </style>
 <script>
@@ -67,6 +70,10 @@ function remove_feature(id){
 </script>
 </head>
 <body>
+<?php
+  if(array_key_exists("logged", $_SESSION) && $_SESSION['logged']) {
+?>
+<a href="admin.php?log=out">Logout</a>
 <form action="admin.php" method="POST">
 <ul id="sortable">
 <?php
@@ -84,5 +91,8 @@ foreach ($features as $key => $value) {
 <input type="submit" value="Save">
 <input type="button" value="Add feature" onclick="add_feature()">
 </form>
+<?php }
+  else Admin::print_login();
+?>
 </body>
 </html>
