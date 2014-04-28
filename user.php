@@ -39,17 +39,18 @@ else if (trim($user) == "") $errMSG = "Please type your Email!";
   .wrong {border-color: red; border-radius: 5px;}
   .wrongmsg {color: red;}
   .correctmsg {color: green;}
-  #success {align: left; color: green; font: 16px;}
-  input { border-radius: 5px; border-width: 2px; border-color: black;}
+  #success {float: left; color: green; font: 16px; }
+  input { border-radius: 5px; border-width: 2px; border-color: black; background-color: #0011FF; color: #FFFFFF}
+  .submit { border-radius: 5px; border-width: 2px; border-color: black; width: 200px; background-color: #FFFFFF; color: #000000}
 }
 </style>
 </head>
 <body>
 <?php Vote::print_success($success && array_key_exists("feature", $_POST)); ?>
-<span>You have <span id="left"></span> stars left !</span>
 <form action="user.php" method="POST">
-<label for="email"> Your Email : </label><input id ="email" type="text" name="email" value="<?php if($user) print($user); ?>">
+<label for="email"> Your Email : </label><input class="submit" id ="email" type="text" name="email" value="<?php if($user) print($user); ?>">
 <span id="errorMSG"><?php print($errMSG); ?></span>
+<p>Please vote on the features  listed below , you have <span id="left"></span> stars left !</p>
 <ul>
 <?php
 $li ='<li id = "%d">
@@ -65,6 +66,9 @@ foreach ($features as $key => $value) {
 </form>
 </body>
 <script type="text/javascript">
+$("span#success").click(function(){
+  $(this).remove();
+})
 $("input#email").change(function(){
   email = $(this).val();
   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

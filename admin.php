@@ -19,6 +19,7 @@ if (array_key_exists("feature", $_POST)) {
       $new_feature = new Feature(array("id" => $value['id'] , "name" => $value['value']));
       $new_feature->save();
     }
+    $f->fix_ids();
   }
   foreach ($features as $key => $value) {
     $value->delete();
@@ -45,7 +46,8 @@ $features = $f->all();
 #sortable li div { float: right }
 #sortable li input {position:relative}
 a {width: 30%; vertical-align: left; float: right;}
-input { border-radius: 5px; border-width: 2px; border-color: black;}
+input  { border-radius: 5px; border-width: 2px; border-color: black;}
+.submit { border-radius: 5px; border-width: 2px; border-color: black; width: 100px; background-color: #0011FF; color: #FFFFFF}
 </style>
 <script>
 $(function() {
@@ -88,7 +90,7 @@ foreach ($features as $key => $value) {
 }
 ?>
 </ul>
-<input type="submit" value="Save">
+<input class="submit" type="submit" value="Save">
 <input type="button" value="Add feature" onclick="add_feature()">
 </form>
 <?php }
