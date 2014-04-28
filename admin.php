@@ -7,7 +7,6 @@ if (array_key_exists("feature", $_POST)) {
   $shuffle_feature =$_POST['feature'];
   foreach ($shuffle_feature as $key => $value) {
     $poped_feature = array_shift($features);
-    var_dump($value);
     if($poped_feature){
       $poped_feature->name = $value["value"];
       $poped_feature->id = $value["id"];
@@ -41,6 +40,7 @@ $features = $f->all();
 #sortable li span { position: absolute; margin-left: -1.3em; }
 #sortable li div { float: right }
 #sortable li input {position:relative}
+input { border-radius: 5px; border-width: 2px; border-color: black;}
 </style>
 <script>
 $(function() {
@@ -49,10 +49,13 @@ $(function() {
 $( "#sortable" ).sortable();
 
 });
+var add = 0;
 function add_feature(){
-  new_li = "<li class='ui-state-default' id = '%d'>"
+  add --;
+  new_li = "<li class='ui-state-default' id = '"+ add + "'>"
   new_li += "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"
-  new_li +="<input id = 'feature[0]' name= 'feature[0]' type='text' value=''></li>"
+  new_li +="<input id = 'feature["+ add + "]' name= 'feature["+ add + "]' type='text' value=''>"
+  new_li +='<div class="ui-icon ui-icon-closethick" onclick="remove_feature('+ add + ')"></div></li>'
   $("#sortable").append(new_li)
 };
 function remove_feature(id){

@@ -33,7 +33,7 @@ class Feature
     }
 
     function save(){
-      if ($this->order_id <= 0) {
+      if ($this->id <= 0) {
         $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".trim($this->name)."','".time()."')";
 
       }
