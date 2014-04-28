@@ -21,6 +21,12 @@ Some explanations
 > js that would be complicated . The `order_id` contains the
 > oreder number that is AI and the `id` contains the unique and
 > not changing id for the relation with the votes.
+> Validations in the user view are for correct email (with re in js) ,
+> correct vote ( you cant vote with more stars than you have ).
+> Also the button Save is disabled until you enter a correct email.
+> User votes with 0 stars are also saved because if the same user
+> decide to vote again the scores will be overwrite and he/she wont be able
+> to make 5 stars vote for every feature !
 
 Found Bugs
 ----------
