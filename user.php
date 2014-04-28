@@ -2,12 +2,15 @@
 require_once 'require.php';
 $f = new Feature();
 $features = $f->all();
-$user = $_POST["email"];
+if (array_key_exists("email", $_POST))
+  $user = $_POST["email"];
+else
+  $user = "";
+$errMSG ="";
 $feature_votes = array();
 
 if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
   $feature_votes =$_POST['feature'];
-  $user = $_POST["email"];
   foreach ($feature_votes as $key => $value) {
     $vote = new Vote(array("user" => $_POST['email'] ,
                            "feature" => $key,
@@ -15,6 +18,7 @@ if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
     $vote->save();
   }
 }
+else if (trim($user) == "") $errMSG = "Please type your Email!";
 
 ?>
 
@@ -40,7 +44,7 @@ if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
 <span>You have <span id="left"></span> stars left !</span>
 <form action="user.php" method="POST">
 <label for="email"> Your Email : </label><input id ="email" type="text" name="email" value="<?php if($user) print($user); ?>">
-<span id="errorMSG"></span>
+<span id="errorMSG"><?php print($errMSG); ?></span>
 <ul>
 <?php
 $li ='<li id = "%d">
@@ -52,7 +56,7 @@ foreach ($features as $key => $value) {
 }
 ?>
 </ul>
-<input id="submit" type="submit" value="Save">
+<input id="submit" type="submit" value="Save" <?php if(!$user) print("disabled"); ?>>
 </form>
 </body>
 <script type="text/javascript">
