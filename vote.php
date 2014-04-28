@@ -39,4 +39,11 @@ class Vote
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
     }
+
+    static function print_success($has_success)
+    {
+      $message = '<p id="success">You have successfully rated the features </p><br />';
+      if($has_success)
+        print($message);
+    }
   }

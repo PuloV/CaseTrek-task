@@ -7,6 +7,7 @@ if (array_key_exists("email", $_POST))
 else
   $user = "";
 $errMSG ="";
+$success = true;
 $feature_votes = array();
 
 if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
@@ -15,7 +16,9 @@ if (array_key_exists("feature", $_POST) && trim($user)!="" ) {
     $vote = new Vote(array("user" => $_POST['email'] ,
                            "feature" => $key,
                            "vote_score" => $value));
-    $vote->save();
+
+    if($vote->save()!="")
+      $success = false;
   }
 }
 else if (trim($user) == "") $errMSG = "Please type your Email!";
@@ -36,11 +39,13 @@ else if (trim($user) == "") $errMSG = "Please type your Email!";
   .wrong {border-color: red; border-radius: 5px;}
   .wrongmsg {color: red;}
   .correctmsg {color: green;}
+  #success {align: left; color: green; font: 16px;}
   input { border-radius: 5px; border-width: 2px; border-color: black;}
 }
 </style>
 </head>
 <body>
+<?php Vote::print_success($success && array_key_exists("feature", $_POST)); ?>
 <span>You have <span id="left"></span> stars left !</span>
 <form action="user.php" method="POST">
 <label for="email"> Your Email : </label><input id ="email" type="text" name="email" value="<?php if($user) print($user); ?>">
