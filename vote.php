@@ -17,15 +17,25 @@ class Vote
 
     }
 
-    function save(){
-      printf("user : %s , feature_id : %s , vote : %s <br />" ,$this->user ,$this->feature ,$this->vote_score);
-      return ;
-      if ($this->order_id <= 0) {
-        $sql ="INSERT INTO `features` (`feature.name` , `feature.id`) VALUES ('".$this->name."','".time()."')";
+    function has_vote($user , $feature_id){
+      $sql = "SELECT * FROM `user_votes` WHERE `feature_id` = ".$feature_id."  AND `user_email` = '".$user."' LIMIT 1";
+      $result=$this->mysqli->query($sql);
+      var_dump($result);
+      return ($result->num_rows != 0);
+    }
 
+    function save(){
+      if ($this->has_vote($this->user,$this->feature)) {
+        $sql = "UPDATE `user_votes`
+                SET `vote` = '". $this->vote_score ."'
+                WHERE `feature_id` =". $this->feature ." AND
+                      `user_email` = '". $this->user ."'
+                LIMIT 1";
       }
       else {
-        $sql ="UPDATE features SET `feature.name` = '". $this->name ."' , `feature.id` = '". $this->id ."' WHERE `feature.order_id` =". $this->order_id ." LIMIT 1";
+         $sql = "INSERT INTO `user_votes`
+                (`vote` , `feature_id` , `user_email`)
+                VALUES ('". $this->vote_score ."','". $this->feature ."' , '". $this->user ."')";
       }
       $result=$this->mysqli->query($sql);
       return $this->mysqli->error;
