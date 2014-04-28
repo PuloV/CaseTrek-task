@@ -66,7 +66,7 @@ function remove_feature(id){
 <?php
 $li ='<li class="ui-state-default" id = "%d">
         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-        <input id = "id" name= "feature[%d][id]" type="text" value="%d">
+        <input id = "id" name= "feature[%d][id]" type="hidden" value="%d">
         <input id = "feature[%d][value]" name= "feature[%d][value]" type="text" value="%s">
         <div class="ui-icon ui-icon-closethick" onclick="remove_feature(%d)"></div>
       </li>';
