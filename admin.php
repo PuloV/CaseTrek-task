@@ -4,30 +4,19 @@ require_once 'require.php';
 require_once 'log.php';
 
 $f = new Feature();
-$features = $f->all();
+
+/* Да пробвам да изтривам всички записи и да вкарвам тези от гет-а вместо тях */
 if (array_key_exists("feature", $_POST)) {
+  $f->delete_all();
   $shuffle_feature =$_POST['feature'];
- // var_dump($shuffle_feature);
   foreach ($shuffle_feature as $key => $value) {
-    $poped_feature = array_shift($features);
-    if($poped_feature != NULL){
-      $poped_feature->name = $value["value"];
-      $poped_feature->id = $value["id"];
-      $poped_feature->save();
-    }
-    else {
-      $new_feature = new Feature(array("id" => $value['id'] , "name" => $value['value']));
-      $new_feature->save();
-    }
-    $f->fix_ids();
+    $new_feature = new Feature(array("id" => $value['id'] , "name" => $value['value']));
+    $new_feature->save();
   }
-  foreach ($features as $key => $value) {
-    $value->delete();
-  }
+
   $f->fix_ids();
 }
 
-$f = new Feature();
 $features = $f->all();
 ?>
 
