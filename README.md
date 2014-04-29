@@ -46,4 +46,4 @@ Some explanations
 
 Found Bugs
 ----------
-* Problem with adding new feature on (k-1) possition form k elements. If you save a feature and then move it and save again than there will be no problem.*(fixed)*
+* Problem with adding new feature on (k-1) possition form k elements. If you save a feature and then move it and save again than there will be no problem. **(fixed)**
