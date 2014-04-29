@@ -31,17 +31,17 @@ Some explanations
 > After I tried 3 different aproaches (you can see them in the history) ,
 > I've stoped on this : every time the admin saves the features , all old
 > features have been deleted and then all features that comes form the
-> POST have been inserted . I've decided to use this aproach because in
+> `POST` have been inserted . I've decided to use this aproach because in
 > the task wasnt mentions anything about paging or big data , and for
 > that case this works fast enought and it is simple to
 > read , write and understand. Actualy what I do is that i keep an unique ID
 > for each feature and an order_id that is also unique and AI . If a new feature
-> is inserted in the table it has an order_id and a negative id .Than the id becomes
-> equal to the order_id , and now the id is also unique. All other features
-> are inserted with new order_id and their current id.
-> I've decided to use DELETE rather than TRUNCATE , because of the following bug:
+> is inserted in the table it has an `order_id` and a negative `id` .Than the `id` becomes
+> equal to the `order_id` , and now the `id` is also unique. All other features
+> are inserted with new `order_id` and their current `id`.
+> I've decided to use `DELETE` rather than `TRUNCATE` , because of the following bug:
 > We have 4 records. User votes about the 4-th. We delete the 4-th , and add new one.
-> The new one will be with id = 4. It will look like the user have voted for
+> The new one will be with `id = 4`. It will look like the user have voted for
 > the new feature , not for the old(deleted) one.
 
 Found Bugs
